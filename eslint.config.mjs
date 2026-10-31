@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Offline asset pipeline (runs in Chromium/Node, not part of the app bundle)
+    "scripts/assets/**",
   ]),
 ]);
 

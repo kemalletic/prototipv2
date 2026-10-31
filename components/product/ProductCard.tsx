@@ -31,7 +31,7 @@ export function ProductCard({
   const quickSizes = sizesFor(p);
 
   const front = (
-    <Image src={img.front} alt={`${p.line} ${p.type}, ${c.name}`} fill sizes={sizes} loading={priority ? 'eager' : 'lazy'} className="object-contain p-[6%] transition-[opacity,scale] duration-500 ease-[var(--ease-tailor)] group-hover:scale-[1.025] [@media(hover:hover)]:group-hover:opacity-0" />
+    <Image src={img.front} alt={`${p.line} ${p.type}, ${c.name}`} fill sizes={sizes} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority && index < 2 ? 'high' : 'auto'} className="object-contain p-[6%] transition-[opacity,scale] duration-500 ease-[var(--ease-tailor)] group-hover:scale-[1.025] [@media(hover:hover)]:group-hover:opacity-0" />
   );
 
   return (
@@ -43,7 +43,6 @@ export function ProductCard({
           transitionTypes={vt ? ['to-product'] : undefined}
           onClick={() => track('select_item', { item_list_id: list, items: [{ ...itemPayload(p, colorId), index }] })}
           className="relative block aspect-[4/5] overflow-hidden bg-plaster-2"
-          aria-label={`${p.line} — ${p.type}, ${formatKM(p.price)}`}
         >
           {vt ? <ViewTransition name={`garment-${p.slug}`} share="garment" default="none">{front}</ViewTransition> : front}
           {img.back && (

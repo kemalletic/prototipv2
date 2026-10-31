@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
-import { Archivo, IBM_Plex_Mono, Newsreader } from 'next/font/google';
+import localFont from 'next/font/local';
+import { IBM_Plex_Mono, Newsreader } from 'next/font/google';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { CartDrawer } from '@/components/layout/CartDrawer';
@@ -7,9 +8,19 @@ import { ConsentBanner } from '@/components/layout/ConsentBanner';
 import { PrototypeNotice } from '@/components/layout/PrototypeNotice';
 import './globals.css';
 
-const archivo = Archivo({ subsets: ['latin', 'latin-ext'], axes: ['wdth'], variable: '--font-archivo', display: 'swap' });
-const newsreader = Newsreader({ subsets: ['latin', 'latin-ext'], style: ['italic'], weight: ['400'], variable: '--font-newsreader', display: 'swap' });
-const plex = IBM_Plex_Mono({ subsets: ['latin', 'latin-ext'], weight: ['400', '500'], variable: '--font-plex-mono', display: 'swap' });
+// Archivo, self-hosted as ONE variable woff2 (wght 400–800, wdth 62–112) subset to the glyphs Bosnian needs
+// (ASCII + čćđšž + typographic punctuation): 72 KB instead of ~172 KB for Google's latin + latin-ext pair.
+// Regenerate with scripts/fonts/subset-archivo.py if new characters are needed.
+const archivo = localFont({
+  src: './fonts/archivo-kroj.woff2',
+  variable: '--font-archivo',
+  weight: '400 800',
+  display: 'swap',
+  declarations: [{ prop: 'font-stretch', value: '62% 112%' }],
+  fallback: ['ui-sans-serif', 'system-ui', 'Arial'],
+});
+const newsreader = Newsreader({ subsets: ['latin', 'latin-ext'], style: ['italic'], weight: ['400'], variable: '--font-newsreader', display: 'swap', preload: false });
+const plex = IBM_Plex_Mono({ subsets: ['latin', 'latin-ext'], weight: ['400', '500'], variable: '--font-plex-mono', display: 'swap', preload: false });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),

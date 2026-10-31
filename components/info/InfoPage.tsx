@@ -21,7 +21,7 @@ export function InfoPage({ title, lede, current, children, sample = false }: { t
         {lede && <p className="mt-4 max-w-2xl font-serif text-xl italic leading-snug text-ink-2">{lede}</p>}
       </header>
       <div className="grid gap-10 pt-10 lg:grid-cols-12">
-        <nav aria-label="Pomoć i informacije" className="lg:col-span-3">
+        <nav aria-label="Pomoć i informacije" className="min-w-0 lg:col-span-3">
           <ul className="no-scrollbar -mx-[var(--page-x)] flex gap-1 overflow-x-auto px-[var(--page-x)] lg:sticky lg:top-[calc(var(--header-h)+1.5rem)] lg:mx-0 lg:flex-col lg:px-0">
             {PAGES.map((p) => (
               <li key={p.href}>
@@ -30,7 +30,7 @@ export function InfoPage({ title, lede, current, children, sample = false }: { t
             ))}
           </ul>
         </nav>
-        <article className="prose-kroj lg:col-span-8 lg:col-start-5">
+        <article className="prose-kroj min-w-0 lg:col-span-8 lg:col-start-5">
           {sample && (
             <p className="!mb-8 border-l-2 border-copper bg-paper px-4 py-3 text-sm !text-ink-2">
               <strong className="font-medium text-ink">Primjer teksta.</strong> Pravila i podaci na ovoj stranici su prijedlog za prototip i moraju se uskladiti sa stvarnim poslovanjem i zakonima BiH prije objave.

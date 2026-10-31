@@ -83,7 +83,7 @@ export function CategoryBrowser({ products, list }: { products: Product[]; list:
           <ProductGrid products={shown} list={list} colorFor={f.boja.length ? (p) => p.colorways.find((c) => f.boja.includes(colorFamily(c.name)))?.id : undefined} />
         ) : (
           <div className="border border-dashed border-stone-2 px-6 py-16 text-center">
-            <p className="font-display text-4xl text-stone-2">Ništa</p>
+            <p className="font-display text-4xl text-ink-3">Ništa</p>
             <p className="mt-3 text-ink-2">Nema proizvoda za odabrane filtere.</p>
             <button type="button" onClick={clear} className={`${btn.base} ${btn.secondary} mt-6`}>Očisti filtere</button>
           </div>

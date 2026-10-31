@@ -21,18 +21,19 @@ export function HeaderActions() {
   const [searchOpen, setSearchOpen] = useState(false);
   return (
     <div className="flex flex-1 items-center justify-end gap-0.5 sm:gap-1 xl:flex-none">
-      <button type="button" onClick={() => setSearchOpen(true)} className="flex h-10 items-center gap-2 rounded-full px-2.5 text-sm text-ink hover:bg-plaster-2" aria-label="Pretraga">
+      <button type="button" onClick={() => setSearchOpen(true)} className="flex h-10 items-center gap-2 rounded-full px-2.5 text-sm text-ink hover:bg-plaster-2" aria-haspopup="dialog">
         <Icon name="search" />
-        <span className="hidden lg:inline">Traži</span>
+        <span className="max-lg:sr-only">Traži</span>
       </button>
       <Link href="/zelje" className="relative flex h-10 items-center gap-2 rounded-full px-2.5 text-sm hover:bg-plaster-2" aria-label={`Lista želja${wcount ? `, ${wcount}` : ''}`}>
         <Icon name="heart" />
         {wcount > 0 && <span className="tabular absolute right-0.5 top-1 grid h-4 min-w-4 place-items-center rounded-full bg-copper px-1 text-[0.625rem] font-medium text-paper">{wcount}</span>}
       </Link>
-      <button type="button" onClick={openCart} className="flex h-10 items-center gap-2 rounded-full px-2.5 text-sm hover:bg-plaster-2" aria-label={`Korpa, ${count} ${count === 1 ? 'artikal' : 'artikala'}`}>
+      <button type="button" onClick={openCart} className="flex h-10 items-center gap-2 rounded-full px-2.5 text-sm hover:bg-plaster-2" aria-haspopup="dialog">
         <Icon name="bag" />
-        <span className="hidden sm:inline">Korpa</span>
+        <span className="max-sm:sr-only">Korpa</span>
         <span key={count} className={`tabular grid h-5 min-w-5 place-items-center rounded-full px-1.5 text-[0.6875rem] font-medium ${count ? 'bg-ink text-paper animate-[pop_400ms_var(--ease-cloth)]' : 'bg-plaster-2 text-ink-3'}`}>{count}</span>
+        <span className="sr-only">{count === 1 ? 'artikal' : 'artikala'}</span>
       </button>
       <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
     </div>

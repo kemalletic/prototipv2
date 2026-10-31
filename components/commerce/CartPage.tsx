@@ -19,8 +19,8 @@ export function CartPage() {
   const extras = PRODUCTS.filter((p) => !inCart.has(p.id) && (p.category === 'kaisevi-i-dodaci' || p.tags.includes('osnova')) && p.price <= 6000).sort((a, b) => b.popularity - a.popularity).slice(0, 4);
   if (!t.resolved.length) {
     return (
-      <div className="py-6">
-        <p className="font-display text-7xl text-stone-2">Prazno</p>
+      <div className="min-h-96 py-6">
+        <p className="font-display text-7xl text-ink-3">Prazno</p>
         <p className="mt-4 text-lg">Vaša korpa je prazna.</p>
         <div className="mt-6 flex gap-2"><Link href="/kolekcija/sve" className={`${btn.base} ${btn.primary}`}>Pogledaj kolekciju</Link><Link href="/zelje" className={`${btn.base} ${btn.secondary}`}>Lista želja</Link></div>
       </div>

@@ -1,4 +1,5 @@
 'use client';
+import { useSyncExternalStore } from 'react';
 import { createPersisted } from './persisted';
 import { getProductById, colorwayOf, stockOf } from '../catalog';
 import { shippingFor } from '../commerce';
@@ -8,7 +9,16 @@ export interface CartLine { productId: string; colorId: string; size: string; qt
 export const MAX_QTY = 10;
 
 export const cartStore = createPersisted<CartLine[]>('kroj.cart.v1', []);
-export const uiStore = createPersisted<{ cartOpen: boolean }>('kroj.ui.v1', { cartOpen: false });
+// UI state is in-memory only: the drawer must not reopen on the next page load.
+const uiListeners = new Set<() => void>();
+let uiState = { cartOpen: false };
+export const uiStore = {
+  get: () => uiState,
+  set(next: { cartOpen: boolean }) { uiState = next; uiListeners.forEach((l) => l()); },
+  subscribe(l: () => void) { uiListeners.add(l); return () => { uiListeners.delete(l); }; },
+  use(): { cartOpen: boolean } { return useSyncExternalStore(uiStore.subscribe, uiStore.get, () => SERVER_UI); },
+};
+const SERVER_UI = { cartOpen: false };
 
 const same = (a: CartLine, b: Pick<CartLine, 'productId' | 'colorId' | 'size'>) => a.productId === b.productId && a.colorId === b.colorId && a.size === b.size;
 

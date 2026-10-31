@@ -40,7 +40,7 @@ export function Rail({ products }: { products: Product[] }) {
   const visible = filter === 'sve' ? products : products.filter((p) => p.category === filter);
 
   // ---- physics loop (runs only while something moves)
-  const tick = useCallback(() => {
+  const tick = useCallback(function step() {
     let moving = false;
     phys.current.forEach((s, key) => {
       const k = 0.0115, damping = 0.058;
@@ -52,7 +52,7 @@ export function Rail({ products }: { products: Product[] }) {
       const el = swing.current.get(key);
       if (el) el.style.transform = s.a ? `rotate(${s.a}rad)` : '';
     });
-    raf.current = moving ? requestAnimationFrame(tick) : null;
+    raf.current = moving ? requestAnimationFrame(step) : null;
   }, []);
   const kick = useCallback((key: string | null, dv: number) => {
     if (reduced.current) return;
@@ -151,7 +151,7 @@ export function Rail({ products }: { products: Product[] }) {
                 <RailItem
                   p={p}
                   index={i}
-                  priority={i < 4}
+                  priority={i < 2}
                   registerSwing={(el) => { if (el) swing.current.set(p.id, el); else swing.current.delete(p.id); }}
                   onPointerMove={(dx) => kick(p.id, dx * 0.00055)}
                 />
@@ -194,9 +194,8 @@ function RailItem({ p, index, priority, registerSwing, onPointerMove }: {
         onClick={() => track('select_item', { item_list_id: 'home_rail', items: [{ ...itemPayload(p, c.id), index }] })}
         onPointerMove={(e) => { if (e.pointerType === 'mouse') onPointerMove(e.movementX); }}
         className="group block outline-none"
-        aria-label={`${p.line} — ${p.type}, ${formatKM(p.price)}`}
       >
-        <div ref={registerSwing} className="relative origin-[50%_10px] will-change-transform" style={{ height: `calc(${HOOK}px + var(--rail-w) * 1.03)` }}>
+        <div ref={registerSwing} className="relative flow-root origin-[50%_10px] will-change-transform" style={{ height: `calc(${HOOK}px + var(--rail-w) * 1.03)` }}>
           <Hanger kind={hang} />
           <div className="relative z-[1] aspect-[4/5]" style={{ marginTop: `calc(${HOOK}px - var(--w) * 1.25 * ${p.art.anchorY})` }}>
             <ViewTransition name={`garment-${p.slug}`} share="garment" default="none">

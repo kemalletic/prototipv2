@@ -74,7 +74,7 @@ that dominate the BiH market. Poster typography also ages quickly.
 | `stone` | `#D8D0C2` | Hairlines, dividers, disabled |
 | `ink` | `#1C1A17` | Primary text, primary buttons |
 | `ink-2` | `#4A453E` | Secondary text (≥ 7:1 on plaster) |
-| `ink-3` | `#6B6358` | Tertiary text and meta (≥ 4.5:1 on plaster) |
+| `ink-3` | `#5F574D` | Tertiary text and meta (≥ 4.5:1 on plaster) |
 | `brass` | `#A3864F` | The rail and small metal details only |
 | `copper` | `#8E4A28` | Accent, focus and active states (*Kazandžiluk*, Sarajevo's coppersmiths' street) |
 | `night` | `#1F2633` | Indigo-night sections (the denim chapter), used sparingly |

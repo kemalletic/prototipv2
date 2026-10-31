@@ -50,7 +50,7 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="page-x mx-auto w-full max-w-[1200px] overflow-y-auto pb-8 pt-5">
-      <form role="search" onSubmit={(e) => e.preventDefault()} className="flex items-center gap-3 border-b border-ink pb-3 pr-12">
+      <form role="search" onSubmit={(e) => e.preventDefault()} className="flex items-center gap-3 border-b border-ink pb-3 pr-12 transition-[border-color,box-shadow] focus-within:border-copper focus-within:shadow-[0_1px_0_0_var(--color-copper)]">
         <Icon name="search" size={24} />
         <label htmlFor="q-global" className="sr-only">Pretraži proizvode</label>
         <input
@@ -60,7 +60,7 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
           placeholder="Traperice, džemper, kaiš…"
           role="combobox" aria-expanded={shown.length > 0} aria-controls={listId} aria-autocomplete="list"
           aria-activedescendant={active >= 0 ? `${listId}-${active}` : undefined}
-          className="w-full bg-transparent text-2xl font-medium tracking-tight placeholder:text-ink-3/60 focus:outline-none sm:text-3xl"
+          className="w-full bg-transparent text-2xl font-medium tracking-tight placeholder:text-ink-3/60 focus:outline-none focus-visible:outline-none sm:text-3xl"
           autoComplete="off" enterKeyHint="search"
         />
       </form>

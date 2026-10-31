@@ -12,15 +12,17 @@ export function SearchResults() {
   const sp = useSearchParams();
   const q = sp.get('q') ?? '';
   const [value, setValue] = useState(q);
+  const [lastQ, setLastQ] = useState(q);
+  if (q !== lastQ) { setLastQ(q); setValue(q); } // keep the input in sync with the URL
   const router = useRouter();
   const results = useMemo(() => search(q), [q]);
-  useEffect(() => { setValue(q); if (q) track('search', { search_term: q, results: results.length }); }, [q, results.length]);
+  useEffect(() => { if (q) track('search', { search_term: q, results: results.length }); }, [q, results.length]);
   return (
     <>
-      <form role="search" onSubmit={(e) => { e.preventDefault(); router.replace(`/pretraga?q=${encodeURIComponent(value.trim())}`); }} className="flex max-w-2xl items-center gap-3 border-b border-ink pb-3">
+      <form role="search" onSubmit={(e) => { e.preventDefault(); router.replace(`/pretraga?q=${encodeURIComponent(value.trim())}`); }} className="flex max-w-2xl items-center gap-3 border-b border-ink pb-3 focus-within:border-copper focus-within:shadow-[0_1px_0_0_var(--color-copper)]">
         <Icon name="search" size={22} />
         <label htmlFor="q-page" className="sr-only">Pretraga</label>
-        <input id="q-page" value={value} onChange={(e) => setValue(e.target.value)} placeholder="Šta tražite?" className="w-full bg-transparent text-2xl font-medium placeholder:text-ink-3/60 focus:outline-none" enterKeyHint="search" />
+        <input id="q-page" value={value} onChange={(e) => setValue(e.target.value)} placeholder="Šta tražite?" className="w-full bg-transparent text-2xl font-medium placeholder:text-ink-3/60 focus:outline-none focus-visible:outline-none" enterKeyHint="search" />
         <button type="submit" className="shrink-0 text-sm underline underline-offset-4">Traži</button>
       </form>
       <div className="mt-8" aria-live="polite">

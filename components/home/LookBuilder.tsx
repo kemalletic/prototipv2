@@ -49,7 +49,7 @@ export function LookBuilder({ slots, title, intro, listId, mode = 'compose' }: {
         return { ...prev, [s.key]: next };
       });
     });
-    setSizes((prev) => { const { [s.key]: _drop, ...rest } = prev; return rest; });
+    setSizes((prev) => { const next = { ...prev }; delete next[s.key]; return next; });
     setDone(false);
   };
 
@@ -99,11 +99,11 @@ export function LookBuilder({ slots, title, intro, listId, mode = 'compose' }: {
             const sz = product ? SIZES[product.sizeSystem] : [];
             const isMissing = missing.includes(slot.key);
             return (
-              <li key={slot.key} className="flex items-center gap-3 py-3">
+              <li key={slot.key} className="flex flex-wrap items-center gap-x-3 gap-y-2 py-3">
                 <div className="relative h-16 w-[3.2rem] shrink-0 bg-plaster-2">
                   {product && <Image src={`/media/p/${product.slug}/${product.colorways[0].id}-front.webp`} alt="" fill sizes="52px" className="object-contain p-0.5" />}
                 </div>
-                <div className="min-w-0 flex-1">
+                <div className="min-w-[9rem] flex-1">
                   <p className="font-label text-ink-3">{slot.label}</p>
                   {product ? (
                     <Link href={`/proizvod/${product.slug}`} className="block truncate text-sm font-medium hover:underline">{product.line} — {product.type}</Link>
@@ -112,6 +112,7 @@ export function LookBuilder({ slots, title, intro, listId, mode = 'compose' }: {
                   )}
                   {product && <p className="tabular text-sm text-ink-2">{formatKM(product.price)}</p>}
                 </div>
+                <div className="ml-auto flex shrink-0 items-center">
                 {product && sz.length > 1 && (
                   <div className="shrink-0">
                     <label className="sr-only" htmlFor={`${listId}-${slot.key}-size`}>Veličina za {product.line} {product.type}</label>
@@ -136,6 +137,7 @@ export function LookBuilder({ slots, title, intro, listId, mode = 'compose' }: {
                     <button type="button" onClick={() => cycle(slot, 1)} className="grid h-10 w-9 place-items-center hover:bg-plaster-2" aria-label={`Sljedeći: ${slot.label}`}><Icon name="arrowRight" size={16} /></button>
                   </div>
                 )}
+                </div>
               </li>
             );
           })}

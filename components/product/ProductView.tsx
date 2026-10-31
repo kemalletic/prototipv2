@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useRef, useState, ViewTransition } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore, ViewTransition } from 'react';
 import type { Product } from '@/lib/catalog/data';
 import { CATEGORIES, SIZES, sampleStock } from '@/lib/catalog/data';
 import { formatKM } from '@/lib/format';
@@ -16,8 +16,16 @@ import { SizeGuideDialog } from './SizeGuide';
 
 type Slide = { key: string; src: string; alt: string; kind: 'front' | 'back' | 'detail' };
 
+const noopSubscribe = () => () => {};
+/** Reads ?boja= on the client only, so the prerendered HTML stays identical for every visitor. */
+function useUrlColour() {
+  return useSyncExternalStore(noopSubscribe, () => new URLSearchParams(window.location.search).get('boja'), () => null);
+}
+
 export function ProductView({ product: p }: { product: Product }) {
-  const [colorId, setColorId] = useState(p.colorways[0].id);
+  const urlColour = useUrlColour();
+  const [picked, setColorId] = useState<string | null>(null);
+  const colorId = picked ?? (urlColour && p.colorways.some((x) => x.id === urlColour) ? urlColour : p.colorways[0].id);
   const c = p.colorways.find((x) => x.id === colorId) ?? p.colorways[0];
   const sizes = SIZES[p.sizeSystem];
   const single = sizes.length === 1;
@@ -30,11 +38,8 @@ export function ProductView({ product: p }: { product: Product }) {
   const [showBar, setShowBar] = useState(false);
   const category = CATEGORIES.find((x) => x.slug === p.category)!;
 
-  // initial colour from ?boja= (read after mount so the page stays fully static)
   useEffect(() => {
-    const b = new URLSearchParams(window.location.search).get('boja');
-    if (b && p.colorways.some((x) => x.id === b)) setColorId(b);
-    track('view_item', { currency: 'BAM', value: p.price / 100, items: [itemPayload(p, b ?? p.colorways[0].id)] });
+    track('view_item', { currency: 'BAM', value: p.price / 100, items: [itemPayload(p, new URLSearchParams(window.location.search).get('boja') ?? p.colorways[0].id)] });
   }, [p]);
 
   // sticky mobile purchase bar when the main button scrolls away
@@ -223,15 +228,16 @@ function addBusinessDays(d: Date, n: number) {
   while (n > 0) { x.setDate(x.getDate() + 1); if (x.getDay() !== 0 && x.getDay() !== 6) n--; }
   return x;
 }
+/** Sample delivery window: next 1–3 business days, 14:00 cut-off. Client-only (depends on "now"). */
+function etaString() {
+  const now = new Date();
+  const start = now.getHours() >= 14 ? 2 : 1;
+  const a = addBusinessDays(now, start), b = addBusinessDays(now, start + 2);
+  const f = (d: Date) => `${DAYS[d.getDay()]}, ${d.getDate()}. ${d.getMonth() + 1}.`;
+  return `između ${f(a)} i ${f(b)}`;
+}
 function DeliveryBox() {
-  const [eta, setEta] = useState<string | null>(null);
-  useEffect(() => {
-    const now = new Date();
-    const start = now.getHours() >= 14 ? 2 : 1;
-    const a = addBusinessDays(now, start), b = addBusinessDays(now, start + 2);
-    const f = (d: Date) => `${DAYS[d.getDay()]}, ${d.getDate()}. ${d.getMonth() + 1}.`;
-    setEta(`između ${f(a)} i ${f(b)}`);
-  }, []);
+  const eta = useSyncExternalStore(noopSubscribe, etaString, () => null);
   return (
     <ul className="mt-5 space-y-2.5 bg-plaster-2/70 p-4 text-sm">
       <li className="flex gap-3"><Icon name="truck" size={18} className="mt-px shrink-0 text-ink-2" /><span>Okvirna dostava <strong className="font-medium">{eta ?? SHIPPING.days}</strong> <span className="text-ink-3">(primjer roka)</span></span></li>

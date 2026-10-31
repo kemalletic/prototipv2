@@ -100,8 +100,8 @@ export function CheckoutForm() {
   }
   if (!t.resolved.length && status !== 'sending') {
     return (
-      <div className="max-w-lg py-10">
-        <p className="font-display text-6xl text-stone-2">Prazno</p>
+      <div className="min-h-[36rem] max-w-lg py-10">
+        <p className="font-display text-6xl text-ink-3">Prazno</p>
         <p className="mt-4 text-lg">Vaša korpa je prazna, pa nema šta naplatiti.</p>
         <Link href="/kolekcija/sve" className={`${btn.base} ${btn.primary} mt-6`}>Nazad u kolekciju</Link>
       </div>

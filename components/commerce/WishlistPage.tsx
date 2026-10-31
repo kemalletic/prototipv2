@@ -15,8 +15,8 @@ export function WishlistPage() {
   const items = ids.map(getProductById).filter((p): p is Product => !!p);
   if (!items.length) {
     return (
-      <div className="py-6">
-        <p className="font-display text-7xl text-stone-2">Prazno</p>
+      <div className="min-h-96 py-6">
+        <p className="font-display text-7xl text-ink-3">Prazno</p>
         <p className="mt-4 max-w-md text-lg">Još niste ništa sačuvali. Dodirnite srce na proizvodu da ga sačuvate za kasnije.</p>
         <Link href="/kolekcija/sve" className={`${btn.base} ${btn.primary} mt-6`}>Pogledaj kolekciju</Link>
       </div>

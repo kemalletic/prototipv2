@@ -11,9 +11,10 @@ export function Header() {
       <div className="page-x mx-auto flex h-[var(--header-h)] max-w-[1600px] items-center gap-4">
         <div className="flex flex-1 items-center gap-2 xl:flex-none">
           <MobileMenuButton />
-          <Link href="/" className="group flex items-baseline gap-2" aria-label="KROJ — početna">
+          <Link href="/" className="group flex items-baseline gap-2">
             <span className="font-display text-[1.7rem] tracking-[-0.02em] lg:text-[1.9rem]">Kroj</span>
             <span className="font-label hidden text-ink-3 sm:inline">Sarajevo</span>
+            <span className="sr-only">, početna stranica</span>
           </Link>
         </div>
         <nav aria-label="Kategorije" className="hidden flex-1 justify-center xl:flex">

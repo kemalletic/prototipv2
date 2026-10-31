@@ -47,7 +47,7 @@ export function FabricViewer({ fabric, color, color2, fallback, label }: { fabri
   const canvas = useRef<HTMLCanvasElement>(null);
   const [state, setState] = useState<'idle' | 'live' | 'fallback'>('idle');
   const colors = useRef({ c1: hexToRgb(color), c2: hexToRgb(color2) });
-  colors.current = { c1: hexToRgb(color), c2: hexToRgb(color2) };
+  useEffect(() => { colors.current = { c1: hexToRgb(color), c2: hexToRgb(color2) }; }, [color, color2]);
   const light = useRef({ x: 0.15, y: -0.2, tx: 0.15, ty: -0.2, user: false });
 
   useEffect(() => {

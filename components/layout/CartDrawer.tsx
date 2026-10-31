@@ -29,7 +29,7 @@ export function CartDrawer() {
         </div>
         {t.resolved.length === 0 ? (
           <div className="flex flex-1 flex-col px-5 py-8">
-            <p className="font-display text-5xl text-stone-2">Prazno</p>
+            <p className="font-display text-5xl text-ink-3">Prazno</p>
             <p className="mt-4 text-ink-2">Vaša korpa je prazna. Krenite od kategorije:</p>
             <ul className="mt-5 grid grid-cols-2 gap-2">
               {NAV.slice(0, 6).map((n) => (

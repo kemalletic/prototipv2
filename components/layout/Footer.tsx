@@ -61,7 +61,9 @@ export function Footer() {
           <p>© 2026 KROJ (radni naziv brenda). Prototip, svi proizvodi su primjeri.</p>
           <p>Cijene su u KM (BAM) i uključuju PDV.</p>
         </div>
-        <p aria-hidden="true" className="font-display -mb-[0.16em] select-none text-center text-[min(34vw,30rem)] leading-[0.78] text-[#ddd6ca]">Kroj</p>
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 1000 250" className="block w-full select-none" preserveAspectRatio="xMidYMax meet">
+          <text x="500" y="300" textAnchor="middle" fill="#ddd6ca" style={{ fontFamily: 'var(--font-archivo)', fontVariationSettings: '"wdth" 66', fontWeight: 760, fontSize: 380, letterSpacing: '-4px' }}>KROJ</text>
+        </svg>
       </div>
     </footer>
   );
