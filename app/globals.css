@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+/* ───────────────────────────────────────────── KROJ design tokens
+   See docs/DESIGN.md. Colour: "a wardrobe in daylight". */
+@theme {
+  --color-plaster: #ece7de;
+  --color-plaster-2: #e4ded3; /* shelf / image panel */
+  --color-paper: #f6f3ee;
+  --color-stone: #d8d0c2;
+  --color-stone-2: #c9c0b0;
+  --color-ink: #1c1a17;
+  --color-ink-2: #4a453e;
+  --color-ink-3: #6b6358;
+  --color-brass: #a3864f;
+  --color-copper: #8e4a28;
+  --color-copper-2: #a85a33;
+  --color-night: #1f2633;
+  --color-night-2: #2a3242;
+  --color-moss: #3f5a3a; /* success */
+  --color-alert: #9b2c1f; /* errors */
+
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --ease-tailor: cubic-bezier(0.2, 0.7, 0.1, 1);
+  --ease-cloth: cubic-bezier(0.34, 1.32, 0.64, 1);
+
+  --breakpoint-xs: 26rem;
+}
+
+:root {
+  --page-x: clamp(1.25rem, 4vw, 3.5rem);
+  --header-h: 3.75rem;
+  color-scheme: light;
+}
+@media (min-width: 64rem) {
+  :root { --header-h: 4.25rem; }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  scroll-padding-top: calc(var(--header-h) + 1rem);
+}
+body {
+  background: var(--color-plaster);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-variation-settings: "wdth" 100;
+  font-feature-settings: "ss01", "tnum" 0;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection { background: var(--color-ink); color: var(--color-paper); }
+
+:focus-visible {
+  outline: 2px solid var(--color-copper);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ───────────────────────────── type utilities */
+@utility font-display {
+  font-family: var(--font-sans);
+  font-variation-settings: "wdth" 66;
+  font-weight: 760;
+  letter-spacing: -0.01em;
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+@utility font-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+@utility font-condensed {
+  font-variation-settings: "wdth" 75;
+}
+@utility font-wide {
+  font-variation-settings: "wdth" 112;
+}
+@utility tabular { font-variant-numeric: tabular-nums; }
+@utility page-x {
+  padding-inline: var(--page-x);
+}
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+@utility hairline { border-color: var(--color-stone); }
+
+.prose-kroj { max-width: 68ch; color: var(--color-ink-2); line-height: 1.65; }
+.prose-kroj h2 { font-family: var(--font-sans); font-variation-settings: "wdth" 75; font-weight: 700; font-size: 1.5rem; color: var(--color-ink); margin: 2.5rem 0 0.75rem; letter-spacing: -0.01em; }
+.prose-kroj h3 { font-weight: 650; color: var(--color-ink); margin: 1.75rem 0 0.5rem; }
+.prose-kroj p { margin: 0 0 1rem; }
+.prose-kroj ul { margin: 0 0 1rem; padding-left: 1.1rem; list-style: square; }
+.prose-kroj li { margin: 0.25rem 0; }
+.prose-kroj a { color: var(--color-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--color-stone-2); }
+.prose-kroj a:hover { text-decoration-color: var(--color-copper); }
+.prose-kroj table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin: 1rem 0 1.5rem; }
+.prose-kroj th, .prose-kroj td { text-align: left; padding: 0.55rem 0.75rem 0.55rem 0; border-bottom: 1px solid var(--color-stone); }
+.prose-kroj th { font-family: var(--font-mono); font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-ink-3); font-weight: 500; }
+
+/* ───────────────────────────── motion: scroll-driven reveals (progressive enhancement)
+   Content is fully visible without support; reveals play once as elements enter. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+    .reveal-clip {
+      animation: reveal-clip linear both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 70%;
+    }
+  }
+}
+@keyframes reveal-rise {
+  from { opacity: 0; translate: 0 22px; }
+  to { opacity: 1; translate: 0 0; }
+}
+@keyframes reveal-clip {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sheet-in-right { from { translate: 100% 0; } to { translate: 0 0; } }
+@keyframes sheet-in-bottom { from { translate: 0 100%; } to { translate: 0 0; } }
+@keyframes sheet-in-top { from { translate: 0 -12px; opacity: 0; } to { translate: 0 0; opacity: 1; } }
+@keyframes pop { 0% { scale: 1; } 40% { scale: 1.18; } 100% { scale: 1; } }
+@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@keyframes spin { to { rotate: 360deg; } }
+
+.skeleton {
+  background: linear-gradient(90deg, var(--color-plaster-2) 0%, var(--color-paper) 50%, var(--color-plaster-2) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+/* native <dialog> sheets */
+dialog.sheet { margin: 0; padding: 0; border: 0; max-width: none; max-height: none; background: transparent; color: inherit; }
+dialog.sheet::backdrop { background: rgb(28 26 23 / 0.38); animation: fade-in 200ms var(--ease-tailor); }
+dialog.sheet[open] .sheet-right { animation: sheet-in-right 320ms var(--ease-tailor); }
+dialog.sheet[open] .sheet-bottom { animation: sheet-in-bottom 320ms var(--ease-tailor); }
+dialog.sheet[open] .sheet-top { animation: sheet-in-top 240ms var(--ease-tailor); }
+dialog.sheet[open] .sheet-fade { animation: fade-in 220ms var(--ease-tailor); }
+html:has(dialog.sheet[open]) { overflow: hidden; }
+
+/* ───────────────────────────── view transitions (React <ViewTransition>) */
+::view-transition { pointer-events: none; }
+::view-transition-group(.garment) {
+  animation-duration: 520ms;
+  animation-timing-function: var(--ease-tailor);
+}
+::view-transition-image-pair(.garment) { isolation: auto; }
+::view-transition-old(.garment), ::view-transition-new(.garment) {
+  animation: none;
+  mix-blend-mode: normal;
+  height: 100%;
+  object-fit: contain;
+}
+::view-transition-old(.garment) { display: none; }
+::view-transition-group(site-header) { animation: none; z-index: 100; }
+::view-transition-old(site-header) { display: none; }
+::view-transition-new(site-header) { animation: none; }
+
+::view-transition-old(.page-out) { animation: 160ms var(--ease-tailor) both vt-fade reverse; }
+::view-transition-new(.page-in) { animation: 280ms var(--ease-tailor) 80ms both vt-rise; }
+@keyframes vt-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes vt-rise { from { opacity: 0; translate: 0 14px; } to { opacity: 1; translate: 0 0; } }
+
+/* rail re-hang (category tabs) */
+::view-transition-group(.rail-move) { animation-duration: 480ms; animation-timing-function: var(--ease-tailor); }
+::view-transition-new(.rail-in) { animation: 380ms var(--ease-tailor) 140ms both vt-drop; }
+::view-transition-old(.rail-out) { animation: 180ms var(--ease-tailor) both vt-fade reverse; }
+@keyframes vt-drop { from { opacity: 0; translate: 0 -18px; rotate: -2deg; } to { opacity: 1; translate: 0 0; rotate: 0deg; } }
+/* look composer garment swap */
+::view-transition-group(.look-swap) { animation-duration: 420ms; animation-timing-function: var(--ease-tailor); }
+::view-transition-old(.look-swap) { animation: 200ms var(--ease-tailor) both vt-out-left; }
+::view-transition-new(.look-swap) { animation: 360ms var(--ease-tailor) 90ms both vt-in-right; }
+@keyframes vt-out-left { to { opacity: 0; translate: -14px 0; } }
+@keyframes vt-in-right { from { opacity: 0; translate: 18px 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}

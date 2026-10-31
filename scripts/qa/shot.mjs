@@ -1,0 +1,16 @@
+import { chromium } from 'playwright';
+const [,, url, out, w = '1440', h = '900', full = '0'] = process.argv;
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: +w, height: +h }, deviceScaleFactor: 1 });
+const errors = [];
+p.on('console', (m) => { if (m.type() === 'error' || m.type() === 'warning') errors.push(`[${m.type()}] ${m.text().slice(0, 300)}`); });
+p.on('pageerror', (e) => errors.push('[pageerror] ' + e.message));
+await p.goto(url, { waitUntil: 'networkidle' });
+await p.evaluate(() => localStorage.setItem('kroj.consent.v1', JSON.stringify({ decided: true, analytics: false, marketing: false })));
+await p.reload({ waitUntil: 'networkidle' });
+await p.waitForTimeout(800);
+await p.screenshot({ path: out, fullPage: full === '1' });
+const overflow = await p.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+console.log('overflow-x:', overflow);
+console.log(errors.slice(0, 15).join('\n'));
+await b.close();

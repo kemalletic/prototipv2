@@ -1,0 +1,21 @@
+const bg = '#ECE7DE';
+export default [
+  { garment: 'trucker', params: { color: '#2b3d63' }, out: 'a1.png', background: bg },
+  { garment: 'trucker', params: { color: '#5c5a3c', fabric: 'canvas', style: 'chore' }, out: 'a2.png', background: bg },
+  { garment: 'bomber', params: { color: '#2f3b2d', rib: '#26241f' }, out: 'a3.png', background: bg },
+  { garment: 'puffer', params: { color: '#1f2228', dark: true }, out: 'a4.png', background: bg },
+  { garment: 'puffer', params: { color: '#6b6e55', vest: true }, out: 'a5.png', background: bg },
+  { garment: 'tracktop', params: { color: '#22252b', stripe: '#d9d2c5', fabric: 'nylon' }, out: 'a6.png', background: bg },
+  { garment: 'tracktop', params: { color: '#9a9389', fabric: 'melange', hood: true, pullover: true, color2: '#c9c4bb' }, out: 'a7.png', background: bg },
+  { garment: 'knitvest', params: { color: '#7a6a52' }, out: 'a8.png', background: bg },
+  { garment: 'belt', params: { color: '#4a2f1f' }, out: 'a9.png', background: bg },
+  { garment: 'beanie', params: { color: '#8e4a28' }, out: 'b1.png', background: bg },
+  { garment: 'socks', params: { color: '#e4ded2', accent: '#1f2633' }, out: 'b2.png', background: bg },
+  { garment: 'scarf', params: { color: '#5b4a3a', color2: '#8a7a66' }, out: 'b3.png', background: bg },
+  { garment: 'crew', params: { color: '#6b5a44' }, out: 'b4.png', background: bg },
+  { garment: 'polo', params: { color: '#24304a', dark: true }, out: 'b5.png', background: bg },
+  { garment: 'joggers', params: { color: '#22252b', stripe: '#d9d2c5', fabric: 'nylon' }, out: 'b6.png', background: bg },
+  { garment: 'jeans', params: { color: '#6d6450', fabric: 'chino', chinoPockets: true, crease: true, fit: 'straight' }, out: 'b7.png', background: bg },
+  { garment: 'jeans', params: { color: '#3a3f2f', fabric: 'canvas', cargo: true, fit: 'relaxed' }, out: 'b8.png', background: bg },
+  { garment: 'jeans', params: { color: '#2b3d63', short: true }, out: 'b9.png', background: bg },
+];
